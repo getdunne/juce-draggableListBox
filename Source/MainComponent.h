@@ -27,28 +27,28 @@ struct MyListBoxItemData : public DraggableListBoxItemData
         g.drawText(String::charToString('a' + modelData[rowNum]->idNum), bounds, Justification::centred);
     }
 
-    void MoveBefore(int indexOfItemToMove, int indexOfItemToPlaceBefore) override
+    void moveBefore(int indexOfItemToMove, int indexOfItemToPlaceBefore) override
     {
         DBG("Move item " + String(indexOfItemToMove) + " before item " + String(indexOfItemToPlaceBefore));
         if (indexOfItemToMove <= indexOfItemToPlaceBefore)
             modelData.move(indexOfItemToMove, indexOfItemToPlaceBefore - 1);
         else
             modelData.move(indexOfItemToMove, indexOfItemToPlaceBefore);
-        ListItemsOrder();
+        printItemsInOrder();
     }
 
-    void MoveAfter(int indexOfItemToMove, int indexOfItemToPlaceAfter) override
+    void moveAfter(int indexOfItemToMove, int indexOfItemToPlaceAfter) override
     {
         DBG("Move item " + String(indexOfItemToMove) + " after item " + String(indexOfItemToPlaceAfter));
         if (indexOfItemToMove <= indexOfItemToPlaceAfter)
             modelData.move(indexOfItemToMove, indexOfItemToPlaceAfter);
         else
             modelData.move(indexOfItemToMove, indexOfItemToPlaceAfter + 1);
-        ListItemsOrder();
+        printItemsInOrder();
     }
 
     // Not required, just something I'm adding for confirmation of correct order after DnD
-    void ListItemsOrder()
+    void printItemsInOrder()
     {
         String msg = "\nitems: ";
         for (auto item : modelData) msg << String::charToString('a' + item->idNum) << " ";

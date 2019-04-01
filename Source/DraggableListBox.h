@@ -7,8 +7,8 @@ struct DraggableListBoxItemData
     virtual int getNumItems() = 0;
     virtual void paintContents(int, Graphics&, Rectangle<int>) = 0;
 
-    virtual void MoveBefore(int indexOfItemToMove, int indexOfItemToPlaceBefore) = 0;
-    virtual void MoveAfter(int indexOfItemToMove, int indexOfItemToPlaceAfter) = 0;
+    virtual void moveBefore(int indexOfItemToMove, int indexOfItemToPlaceBefore) = 0;
+    virtual void moveAfter(int indexOfItemToMove, int indexOfItemToPlaceAfter) = 0;
 };
 
 // DraggableListBox is basically just a ListBox, that inherits from DragAndDropContainer.

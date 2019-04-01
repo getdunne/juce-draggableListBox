@@ -66,9 +66,9 @@ void DraggableListBoxItem::itemDropped(const juce::DragAndDropTarget::SourceDeta
     if (DraggableListBoxItem* item = dynamic_cast<DraggableListBoxItem*>(dragSourceDetails.sourceComponent.get()))
     {
         if (dragSourceDetails.localPosition.y < getHeight() / 2)
-            modelData.MoveBefore(item->rowNum, rowNum);
+            modelData.moveBefore(item->rowNum, rowNum);
         else
-            modelData.MoveAfter(item->rowNum, rowNum);
+            modelData.moveAfter(item->rowNum, rowNum);
         listBox.updateContent();
     }
     hideInsertLines();
