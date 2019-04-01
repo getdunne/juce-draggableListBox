@@ -1,12 +1,13 @@
 #include "MainComponent.h"
 
 MainContentComponent::MainContentComponent()
-    : listBoxModel(listBox)
+    : listBoxModel(listBox, itemData)
 {
     for (int i = 0; i < 5; i++)
-        listBoxModel.items.add(new MyListBoxItemData(i));
+        itemData.modelData.add(new MyItemData(i));
 
     listBox.setModel(&listBoxModel);
+    listBox.setRowHeight(40);
     addAndMakeVisible(listBox);
     setSize (600, 400);
 }

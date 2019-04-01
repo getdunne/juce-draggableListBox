@@ -2,7 +2,7 @@
 
 void DraggableListBoxItem::paint(Graphics& g)
 {
-    if (itemData) itemData->paintContents(g, getLocalBounds());
+    modelData.paintContents(rowNum, g, getLocalBounds());
 
     if (insertAfter)
     {
@@ -66,16 +66,22 @@ void DraggableListBoxItem::itemDropped(const juce::DragAndDropTarget::SourceDeta
     if (DraggableListBoxItem* item = dynamic_cast<DraggableListBoxItem*>(dragSourceDetails.sourceComponent.get()))
     {
         if (dragSourceDetails.localPosition.y < getHeight() / 2)
-            model.MoveBefore(item->rowNum, rowNum);
+            modelData.MoveBefore(item->rowNum, rowNum);
         else
-            model.MoveAfter(item->rowNum, rowNum);
+            modelData.MoveAfter(item->rowNum, rowNum);
+        listBox.updateContent();
     }
     hideInsertLines();
 }
 
-void DraggableListBoxModel::ListItemsOrder()
+Component* DraggableListBoxModel::refreshComponentForRow(int rowNumber,
+                                                         bool /*isRowSelected*/,
+                                                         Component *existingComponentToUpdate)
 {
-    String msg = "\nitems: ";
-    for (auto item : items) msg << item->getDescription() << " ";
-    DBG(msg);
+    ScopedPointer<DraggableListBoxItem> item(dynamic_cast<DraggableListBoxItem*>(existingComponentToUpdate));
+    if (isPositiveAndBelow(rowNumber, modelData.getNumItems()))
+    {
+        item = new DraggableListBoxItem(listBox, modelData, rowNumber);
+    }
+    return item.release();
 }

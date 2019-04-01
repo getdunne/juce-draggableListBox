@@ -2,22 +2,57 @@
 #include "JuceHeader.h"
 #include "DraggableListBox.h"
 
-struct MyListBoxItemData : public DraggableListBoxItemData
+// My item-specific data (could be anything)
+struct MyItemData
 {
     int idNum;
-    MyListBoxItemData(int id) : idNum(id) {}
+    MyItemData(int id) : idNum(id) {}
+};
 
-    String getDescription() override
+struct MyListBoxItemData : public DraggableListBoxItemData
+{
+    // My model data is an OwnedArray of structs as above
+    OwnedArray<MyItemData> modelData;
+
+    int getNumItems() override
     {
-        return String::charToString('a' + idNum);
+        return int(modelData.size());
     }
 
-    void paintContents(Graphics& g, Rectangle<int> bounds) override
+    void paintContents(int rowNum, Graphics& g, Rectangle<int> bounds) override
     {
         g.fillAll(Colours::lightgrey);
         g.setColour(Colours::black);
         g.drawRect(bounds);
-        g.drawText(String::charToString('a' + idNum), bounds, Justification::centred);
+        g.drawText(String::charToString('a' + modelData[rowNum]->idNum), bounds, Justification::centred);
+    }
+
+    void MoveBefore(int indexOfItemToMove, int indexOfItemToPlaceBefore) override
+    {
+        DBG("Move item " + String(indexOfItemToMove) + " before item " + String(indexOfItemToPlaceBefore));
+        if (indexOfItemToMove <= indexOfItemToPlaceBefore)
+            modelData.move(indexOfItemToMove, indexOfItemToPlaceBefore - 1);
+        else
+            modelData.move(indexOfItemToMove, indexOfItemToPlaceBefore);
+        ListItemsOrder();
+    }
+
+    void MoveAfter(int indexOfItemToMove, int indexOfItemToPlaceAfter) override
+    {
+        DBG("Move item " + String(indexOfItemToMove) + " after item " + String(indexOfItemToPlaceAfter));
+        if (indexOfItemToMove <= indexOfItemToPlaceAfter)
+            modelData.move(indexOfItemToMove, indexOfItemToPlaceAfter);
+        else
+            modelData.move(indexOfItemToMove, indexOfItemToPlaceAfter + 1);
+        ListItemsOrder();
+    }
+
+    // Not required, just something I'm adding for confirmation of correct order after DnD
+    void ListItemsOrder()
+    {
+        String msg = "\nitems: ";
+        for (auto item : modelData) msg << String::charToString('a' + item->idNum) << " ";
+        DBG(msg);
     }
 };
 
@@ -31,6 +66,7 @@ public:
     void resized() override;
     
 private:
+    MyListBoxItemData itemData;
     DraggableListBoxModel listBoxModel;
     DraggableListBox listBox;
 
