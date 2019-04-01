@@ -1,5 +1,5 @@
 # juce-draggableListBox
-In July 2018, Charles Scheirmeyer (aka *matkatmusic*) submitted a [query to the JUCE Forum](https://forum.juce.com/t/listbox-drag-to-reorder-solved/28477), asking for help implementing drag-to-reorder functionality in the JUCE *ListBox* class. Shortly afterward, the forum post was marked "Solved", and Charles was kind enough to provide a [full example implementation hosted on BitBucket](https://bitbucket.org/MatkatMusic/listboxreorder/).
+In July 2018, Charles Schiermeyer (aka *matkatmusic*) submitted a [query to the JUCE Forum](https://forum.juce.com/t/listbox-drag-to-reorder-solved/28477), asking for help implementing drag-to-reorder functionality in the JUCE *ListBox* class. Shortly afterward, the forum post was marked "Solved", and Charles was kind enough to provide a [full example implementation hosted on BitBucket](https://bitbucket.org/MatkatMusic/listboxreorder/).
 
 This is a revised version of Charles's code, in which I have separated the app-specific code from the more generic code, expanded support for a custom list-element Component class, and added support for list-management operations such as deleting items and adding new ones. (See the commit history for the refactoring steps involved.)
 
