@@ -16,6 +16,17 @@ void DraggableListBoxItem::paint(Graphics& g)
     }
 }
 
+void DraggableListBoxItem::mouseEnter(const MouseEvent&)
+{
+    savedCursor = getMouseCursor();
+    setMouseCursor(MouseCursor::DraggingHandCursor);
+}
+
+void DraggableListBoxItem::mouseExit(const MouseEvent&)
+{
+    setMouseCursor(savedCursor);
+}
+
 void DraggableListBoxItem::mouseDrag(const MouseEvent&)
 {
     if (DragAndDropContainer* container = DragAndDropContainer::findParentDragContainerFor(this))

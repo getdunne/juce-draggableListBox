@@ -3,8 +3,17 @@
 MainContentComponent::MainContentComponent()
     : listBoxModel(listBox, itemData)
 {
-    for (int i = 0; i < 5; i++)
-        itemData.modelData.add(new MyItemData(i));
+    itemData.modelData.add(new String("Item 1"));
+    itemData.modelData.add(new String("Item 2"));
+    itemData.modelData.add(new String("Item 3"));
+
+    addBtn.setButtonText("Add Item...");
+    addBtn.onClick = [this]()
+    {
+        itemData.modelData.add(new String("Item " + String(1 + itemData.getNumItems())));
+        listBox.updateContent();
+    };
+    addAndMakeVisible(addBtn);
 
     listBox.setModel(&listBoxModel);
     listBox.setRowHeight(40);
@@ -19,5 +28,10 @@ void MainContentComponent::paint (Graphics& g)
 
 void MainContentComponent::resized()
 {
-    listBox.setBounds(getLocalBounds().reduced(20));
+    auto area = getLocalBounds().reduced(20);
+    auto row = area.removeFromTop(24);
+    addBtn.setBounds(row.removeFromRight(100));
+
+    area.removeFromTop(6);
+    listBox.setBounds(area);
 }

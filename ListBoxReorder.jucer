@@ -5,6 +5,10 @@
               jucerVersion="5.4.3">
   <MAINGROUP id="rPu9OT" name="ListBoxReorder">
     <GROUP id="{DF261840-DAED-589F-C182-B6C3064BD21B}" name="Source">
+      <FILE id="l7PGJa" name="MyListComponent.cpp" compile="1" resource="0"
+            file="Source/MyListComponent.cpp"/>
+      <FILE id="m1LIyM" name="MyListComponent.h" compile="0" resource="0"
+            file="Source/MyListComponent.h"/>
       <FILE id="whyzV1" name="DraggableListBox.cpp" compile="1" resource="0"
             file="Source/DraggableListBox.cpp"/>
       <FILE id="vZKFgi" name="DraggableListBox.h" compile="0" resource="0"

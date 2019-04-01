@@ -1,7 +1,8 @@
 #pragma once
 #include "JuceHeader.h"
 
-// Your item-data container must inherit from this, and override all four member functions.
+// Your item-data container must inherit from this, and override at least the first
+// four member functions.
 struct DraggableListBoxItemData
 {
     virtual int getNumItems() = 0;
@@ -9,6 +10,10 @@ struct DraggableListBoxItemData
 
     virtual void moveBefore(int indexOfItemToMove, int indexOfItemToPlaceBefore) = 0;
     virtual void moveAfter(int indexOfItemToMove, int indexOfItemToPlaceAfter) = 0;
+
+    // If you need a dynamic list, override these functions as well.
+    virtual void deleteItem(int /*indexOfItemToDelete*/) {};
+    virtual void addItemAtEnd() {};
 };
 
 // DraggableListBox is basically just a ListBox, that inherits from DragAndDropContainer.
@@ -26,6 +31,8 @@ public:
 
     // Component
     void paint(Graphics& g) override;
+    void mouseEnter(const MouseEvent&) override;
+    void mouseExit(const MouseEvent&) override;
     void mouseDrag(const MouseEvent&) override;
 
     // DragAndDropTarget
@@ -45,6 +52,7 @@ protected:
     DraggableListBoxItemData& modelData;
     DraggableListBox& listBox;
 
+    MouseCursor savedCursor;
     bool insertAfter = false;
     bool insertBefore = false;
 };
