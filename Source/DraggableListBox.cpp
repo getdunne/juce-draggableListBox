@@ -2,9 +2,9 @@
 
 void DraggableListBoxItem::paint(Graphics& g)
 {
-    g.fillAll(colour);
+    g.fillAll(Colours::lightgrey);
     g.setColour(Colours::black);
-
+    g.drawRect(getLocalBounds());
     g.drawText(String::charToString('a' + idNum), getLocalBounds(), Justification::centred);
 
     if (insertAfter)
@@ -68,7 +68,8 @@ void DraggableListBoxItem::itemDropped(const juce::DragAndDropTarget::SourceDeta
 {
     if (DraggableListBoxItem* item = dynamic_cast<DraggableListBoxItem*>(dragSourceDetails.sourceComponent.get()))
     {
-        DBG("\n\nitem " << String(item->idNum) << " dropped onto " << String(idNum));
+        DBG("\n\nitem " << String::charToString('a' + item->idNum) << " dropped onto "
+            << String::charToString('a' + idNum));
 
         if (dragSourceDetails.localPosition.y < getHeight() / 2)
             model.MoveBefore(item->rowNum, rowNum);
@@ -76,4 +77,11 @@ void DraggableListBoxItem::itemDropped(const juce::DragAndDropTarget::SourceDeta
             model.MoveAfter(item->rowNum, rowNum);
     }
     hideInsertLines();
+}
+
+void DraggableListBoxModel::ListItemsOrder()
+{
+    String msg = "\nitems: ";
+    for (auto item : items) msg << String::charToString('a' + item->idNum) << " ";
+    DBG(msg);
 }

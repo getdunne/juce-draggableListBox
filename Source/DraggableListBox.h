@@ -1,18 +1,25 @@
 #pragma once
 #include "JuceHeader.h"
-#include "ListBoxItemData.h"
-#include "ReorderFunctions.h"
+
+struct ListBoxItemData
+{
+    int idNum;
+
+    ListBoxItemData(int id) : idNum(id) {}
+};
 
 // DraggableListBox is basically just a ListBox, that inherits from DragAndDropContainer
 class DraggableListBox : public ListBox, public DragAndDropContainer
 {
 };
 
+// Your Component for ListBox items should inherit from DraggableListBoxItem
+// and implement paintContents()
 struct DraggableListBoxModel;
 struct DraggableListBoxItem : public Component, public DragAndDropTarget
 {
-    DraggableListBoxItem(int id, Colour c, DraggableListBoxModel& m, int rn)
-        : idNum(id), colour(c), model(m), rowNum(rn) {}
+    DraggableListBoxItem(int id, DraggableListBoxModel& m, int rn)
+        : idNum(id), model(m), rowNum(rn) {}
 
     // Component
     void paint(Graphics& g) override;
@@ -29,13 +36,14 @@ struct DraggableListBoxItem : public Component, public DragAndDropTarget
     // DraggableListBoxItem
     void updateInsertLines(const SourceDetails &dragSourceDetails);
     void hideInsertLines();
+    virtual void paintContents(Graphics&) {}
+
+    int rowNum;
+    DraggableListBoxModel& model;
 
     int idNum;
-    Colour colour;
     bool insertAfter = false;
     bool insertBefore = false;
-    DraggableListBoxModel& model;
-    int rowNum;
 };
 
 struct DraggableListBoxModel : public ListBoxModel
@@ -53,7 +61,7 @@ struct DraggableListBoxModel : public ListBoxModel
 
         if (isPositiveAndBelow(rowNumber, (int)items.size()))
         {
-            item = new DraggableListBoxItem(items[rowNumber].idNum, items[rowNumber].c, *this, rowNumber);
+            item = new DraggableListBoxItem(items[rowNumber]->idNum, *this, rowNumber);
         }
 
         return item.release();
@@ -61,19 +69,23 @@ struct DraggableListBoxModel : public ListBoxModel
 
     void MoveBefore(int indexOfItemToMove, int indexOfItemToPlaceBefore)
     {
-        MoveItemBefore(items, indexOfItemToMove, indexOfItemToPlaceBefore);
+        items.move(indexOfItemToMove, indexOfItemToPlaceBefore);
         listBox.updateContent();
+        ListItemsOrder();
     }
 
     void MoveAfter(int indexOfItemToMove, int indexOfItemToPlaceAfter)
     {
-        MoveItemAfter(items, indexOfItemToMove, indexOfItemToPlaceAfter);
+        items.move(indexOfItemToMove, indexOfItemToPlaceAfter + 1);
         listBox.updateContent();
+        ListItemsOrder();
     }
+
+    void ListItemsOrder();
 
     // Draggable model has a reference to its owner ListBox, so it can tell it to update after DnD
     DraggableListBox &listBox;
 
     // Vector of model data
-    std::vector<ListBoxItemData> items;
+    OwnedArray<ListBoxItemData> items;
 };

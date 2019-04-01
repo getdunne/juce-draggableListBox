@@ -3,10 +3,9 @@
 MainContentComponent::MainContentComponent()
     : listBoxModel(listBox)
 {
-    listBoxModel.items.push_back({ 1 });
-    listBoxModel.items.push_back({ 2 });
-    listBoxModel.items.push_back({ 3 });
-    listBoxModel.items.push_back({ 4 });
+    for (int i = 0; i < 5; i++)
+        listBoxModel.items.add(new ListBoxItemData(i));
+
     listBox.setModel(&listBoxModel);
     addAndMakeVisible(listBox);
     setSize (600, 400);
