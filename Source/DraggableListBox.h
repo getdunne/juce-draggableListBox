@@ -1,25 +1,22 @@
 #pragma once
 #include "JuceHeader.h"
 
-struct ListBoxItemData
-{
-    int idNum;
-
-    ListBoxItemData(int id) : idNum(id) {}
-};
-
 // DraggableListBox is basically just a ListBox, that inherits from DragAndDropContainer
 class DraggableListBox : public ListBox, public DragAndDropContainer
 {
 };
 
-// Your Component for ListBox items should inherit from DraggableListBoxItem
-// and implement paintContents()
+struct DraggableListBoxItemData
+{
+    virtual String getDescription() = 0;
+    virtual void paintContents(Graphics&, Rectangle<int>) = 0;
+};
+
 struct DraggableListBoxModel;
 struct DraggableListBoxItem : public Component, public DragAndDropTarget
 {
-    DraggableListBoxItem(int id, DraggableListBoxModel& m, int rn)
-        : idNum(id), model(m), rowNum(rn) {}
+    DraggableListBoxItem(DraggableListBoxItemData* data, DraggableListBoxModel& m, int rn)
+        : itemData(data), model(m), rowNum(rn) {}
 
     // Component
     void paint(Graphics& g) override;
@@ -36,12 +33,12 @@ struct DraggableListBoxItem : public Component, public DragAndDropTarget
     // DraggableListBoxItem
     void updateInsertLines(const SourceDetails &dragSourceDetails);
     void hideInsertLines();
-    virtual void paintContents(Graphics&) {}
 
     int rowNum;
+    DraggableListBoxItemData* itemData;
+
     DraggableListBoxModel& model;
 
-    int idNum;
     bool insertAfter = false;
     bool insertBefore = false;
 };
@@ -61,7 +58,7 @@ struct DraggableListBoxModel : public ListBoxModel
 
         if (isPositiveAndBelow(rowNumber, (int)items.size()))
         {
-            item = new DraggableListBoxItem(items[rowNumber]->idNum, *this, rowNumber);
+            item = new DraggableListBoxItem(items[rowNumber], *this, rowNumber);
         }
 
         return item.release();
@@ -87,5 +84,5 @@ struct DraggableListBoxModel : public ListBoxModel
     DraggableListBox &listBox;
 
     // Vector of model data
-    OwnedArray<ListBoxItemData> items;
+    OwnedArray<DraggableListBoxItemData> items;
 };

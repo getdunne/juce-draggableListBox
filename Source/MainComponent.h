@@ -2,19 +2,23 @@
 #include "JuceHeader.h"
 #include "DraggableListBox.h"
 
-struct MyListBoxItem : public DraggableListBoxItem
+struct MyListBoxItemData : public DraggableListBoxItemData
 {
-    MyListBoxItem(int id, Colour c, DraggableListBoxModel& m, int rn)
-        : DraggableListBoxItem(id, m, rn), colour(c) {}
+    int idNum;
+    MyListBoxItemData(int id) : idNum(id) {}
 
-    void paintContents(Graphics& g) override
+    String getDescription() override
     {
-        g.fillAll(colour);
-        g.setColour(Colours::black);
-        g.drawText(String::charToString('a' + idNum), getLocalBounds(), Justification::centred);
+        return String::charToString('a' + idNum);
     }
 
-    Colour colour;
+    void paintContents(Graphics& g, Rectangle<int> bounds) override
+    {
+        g.fillAll(Colours::lightgrey);
+        g.setColour(Colours::black);
+        g.drawRect(bounds);
+        g.drawText(String::charToString('a' + idNum), bounds, Justification::centred);
+    }
 };
 
 class MainContentComponent   : public Component

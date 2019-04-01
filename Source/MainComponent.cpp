@@ -4,7 +4,7 @@ MainContentComponent::MainContentComponent()
     : listBoxModel(listBox)
 {
     for (int i = 0; i < 5; i++)
-        listBoxModel.items.add(new ListBoxItemData(i));
+        listBoxModel.items.add(new MyListBoxItemData(i));
 
     listBox.setModel(&listBoxModel);
     addAndMakeVisible(listBox);
