@@ -12,10 +12,10 @@ To implement a JUCE list-box with drag-to-reorder capability:
 3. Define a custom list-item Component which inherits from *DraggableListBoxItem*. This may contain any sub-components you need, e.g., the example version includes a "Delete" button to trigger deletion of a list item, and an "Action" button to trigger some action on a single item. (The corresponding *doItemAction()* function is implemented in the app-specific item data class.)
 4. Define a custom *model* class which inherits from *DraggableListBoxModel*, which overrides *refreshComponentForRow()* to ensure that your new custom list-item Component class is used.
 5. Declare your list-box widget using class *DraggableListBox*, plus two companion objects:
-   - one object of your *DraggableListBoxModel*-derived class.
    - one object of the app-specific data class you defined at step 2.
-6. Initialize your *DraggableListBoxModel* object with references to your *DraggableListBox* and your app-specific data object.
-7. Set your *DraggableListBox*'s model to be your *DraggableListBoxModel* object (by calling the former's *setModel()* member).
+   - one object of the customized model class you defined at step 4.
+6. Initialize your model object with references to your *DraggableListBox* and your app-specific data object.
+7. Set your *DraggableListBox*'s model to be your model object (by calling the former's *setModel()* member).
 
 In this example, all custom list-related classes are defined in *MyListComponent.h/.cpp*, and the surrounding GUI is defined in *MainContentComponent.h/.cpp*. (*Main.cpp* is a Projucer-generated file and is completely generic.)
 
