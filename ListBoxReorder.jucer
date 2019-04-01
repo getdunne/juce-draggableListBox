@@ -5,6 +5,14 @@
               jucerVersion="5.4.3">
   <MAINGROUP id="rPu9OT" name="ListBoxReorder">
     <GROUP id="{DF261840-DAED-589F-C182-B6C3064BD21B}" name="Source">
+      <FILE id="whyzV1" name="DraggableListBox.cpp" compile="1" resource="0"
+            file="Source/DraggableListBox.cpp"/>
+      <FILE id="vZKFgi" name="DraggableListBox.h" compile="0" resource="0"
+            file="Source/DraggableListBox.h"/>
+      <FILE id="nWAsPY" name="ListBoxItemData.h" compile="0" resource="0"
+            file="Source/ListBoxItemData.h"/>
+      <FILE id="EBxLe3" name="ReorderFunctions.h" compile="0" resource="0"
+            file="Source/ReorderFunctions.h"/>
       <FILE id="BMIWxU" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="ruCE7o" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
