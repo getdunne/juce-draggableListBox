@@ -54,7 +54,6 @@ void DraggableListBoxItem::hideInsertLines()
 {
     insertBefore = false;
     insertAfter = false;
-    repaint();
 }
 
 void DraggableListBoxItem::itemDragEnter(const SourceDetails& dragSourceDetails)
