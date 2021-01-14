@@ -5,6 +5,8 @@
 // four member functions.
 struct DraggableListBoxItemData
 {
+    virtual ~DraggableListBoxItemData() = 0;
+    
     virtual int getNumItems() = 0;
     virtual void paintContents(int, Graphics&, Rectangle<int>) = 0;
 
@@ -27,7 +29,7 @@ class DraggableListBoxItem : public Component, public DragAndDropTarget
 {
 public:
     DraggableListBoxItem(DraggableListBox& lb, DraggableListBoxItemData& data, int rn)
-        : listBox(lb), modelData(data), rowNum(rn) {}
+        : rowNum(rn), modelData(data), listBox(lb)  {}
 
     // Component
     void paint(Graphics& g) override;

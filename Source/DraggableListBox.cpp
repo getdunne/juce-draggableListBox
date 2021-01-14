@@ -1,5 +1,7 @@
 #include "DraggableListBox.h"
 
+DraggableListBoxItemData::~DraggableListBoxItemData() {};
+
 void DraggableListBoxItem::paint(Graphics& g)
 {
     modelData.paintContents(rowNum, g, getLocalBounds());
@@ -88,10 +90,10 @@ Component* DraggableListBoxModel::refreshComponentForRow(int rowNumber,
                                                          bool /*isRowSelected*/,
                                                          Component *existingComponentToUpdate)
 {
-    ScopedPointer<DraggableListBoxItem> item(dynamic_cast<DraggableListBoxItem*>(existingComponentToUpdate));
+    std::unique_ptr<DraggableListBoxItem> item(dynamic_cast<DraggableListBoxItem*>(existingComponentToUpdate));
     if (isPositiveAndBelow(rowNumber, modelData.getNumItems()))
     {
-        item = new DraggableListBoxItem(listBox, modelData, rowNumber);
+        item = std::make_unique<DraggableListBoxItem>(listBox, modelData, rowNumber);
     }
     return item.release();
 }
