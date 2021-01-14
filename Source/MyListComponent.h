@@ -70,7 +70,7 @@ class MyListComponent : public DraggableListBoxItem
 {
 public:
     MyListComponent(DraggableListBox& lb, MyListBoxItemData& data, int rn);
-    virtual ~MyListComponent() = default;
+    ~MyListComponent();
 
     void paint(Graphics&) override;
     void resized() override;

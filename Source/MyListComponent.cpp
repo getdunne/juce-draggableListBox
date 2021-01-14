@@ -19,6 +19,11 @@ MyListComponent::MyListComponent(DraggableListBox& lb, MyListBoxItemData& data, 
     addAndMakeVisible(deleteBtn);
 }
 
+MyListComponent::~MyListComponent()
+{
+    
+}
+
 void MyListComponent::paint (Graphics& g)
 {
     modelData.paintContents(rowNum, g, dataArea);
@@ -37,10 +42,10 @@ Component* MyListBoxModel::refreshComponentForRow(int rowNumber,
                                                   bool /*isRowSelected*/,
                                                   Component *existingComponentToUpdate)
 {
-    ScopedPointer<MyListComponent> item(dynamic_cast<MyListComponent*>(existingComponentToUpdate));
+    std::unique_ptr<MyListComponent> item(dynamic_cast<MyListComponent*>(existingComponentToUpdate));
     if (isPositiveAndBelow(rowNumber, modelData.getNumItems()))
     {
-        item = new MyListComponent(listBox, (MyListBoxItemData&)modelData, rowNumber);
+        item = std::make_unique<MyListComponent>(listBox, (MyListBoxItemData&)modelData, rowNumber);
     }
     return item.release();
 }
